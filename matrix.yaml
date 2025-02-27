@@ -1,0 +1,163 @@
+hosts:
+  juju-ctl-1:
+    rsh-ls-nic00-k8s-cl01-mgt-oam-ovr: "100.111.128.2"
+  juju-ctl-2:
+    rsh-ls-nic00-k8s-cl01-mgt-oam-ovr: "100.111.128.3"
+  juju-ctl-3:
+    rsh-ls-nic00-k8s-cl01-mgt-oam-ovr: "100.111.128.4"
+  COS-1:
+    rsh-ls-nic00-k8s-cl01-mon-oam-ov: "100.111.128.114"
+  COS-2:
+    rsh-ls-nic00-k8s-cl01-mon-oam-ov: "100.111.128.115"
+  COS-3:
+    rsh-ls-nic00-k8s-cl01-mon-oam-ov: "100.111.128.116"
+  k8s-control-plane-1:
+    rsh-ls-nic00-k8s-cl01-mgt-oam-ovr: "100.111.128.5"
+    rsh-ls-nic00-k8s-cl01-mgt-stor-ovr: "100.111.128.18"
+  k8s-control-plane-2:
+    rsh-ls-nic00-k8s-cl01-mgt-oam-ovr: "100.111.128.6"
+    rsh-ls-nic00-k8s-cl01-mgt-stor-ovr: "100.111.128.19"
+  k8s-control-plane-3:
+    rsh-ls-nic00-k8s-cl01-mgt-oam-ovr: "100.111.128.7"
+    rsh-ls-nic00-k8s-cl01-mgt-stor-ovr: "100.111.128.20"
+  k8s-worker-1:
+    rsh-ls-nic00-k8s-cl01-wld-oam-ovr: "100.111.128.34"
+    rsh-ls-nic00-k8s-cl01-wld-stor-ovr: "100.111.128.66"
+    rsh-ls-nic00-k8s-cl01-wld-data-ovr: "100.111.128.50"
+
+network_matrix:
+  rsh-ls-nic00-k8s-cl01-mgt-oam-ovr: "100.111.128.0/28"
+  rsh-ls-nic00-k8s-cl01-wld-oam-ovr: "100.111.128.32/28"
+  rsh-ls-nic00-k8s-cl01-mgt-stor-ovr: "100.111.128.16/28"
+  rsh-ls-nic00-k8s-cl01-wld-stor-ovr: "100.111.128.64/28"
+  rsh-ls-nic00-k8s-cl01-wld-data-ovr: "100.111.128.48/28"
+  rsh-ls-nic00-k8s-cl01-mon-oam-ov: "100.111.128.112/28"
+
+
+
+
+firewall_rules:
+  # OAM Management to OAM Management
+  "rsh-ls-nic00-k8s-cl01-mgt-oam-ovr->rsh-ls-nic00-k8s-cl01-mgt-oam-ovr":
+    - port: 17070
+      protocol: tcp
+    - port: 22
+      protocol: tcp
+    - port: 6443
+      protocol: tcp
+    - port: 10250
+      protocol: tcp
+    - port: 10256
+      protocol: tcp
+    - port: 10259
+      protocol: tcp
+    - port: 179
+      protocol: tcp
+    - port: 443
+      protocol: tcp
+    - port: 8443
+      protocol: tcp
+    - port: 2379
+      protocol: tcp
+    - port: 2380
+      protocol: tcp
+    - port: 8472
+      protocol: udp
+    - port: 4240
+      protocol: tcp
+    - port: 6081
+      protocol: udp
+
+  # OAM Management to Monitoring
+  "rsh-ls-nic00-k8s-cl01-mgt-oam-ovr->rsh-ls-nic00-k8s-cl01-mon-oam-ov":
+    - port: 3000
+      protocol: tcp
+    - port: 3100
+      protocol: tcp
+    - port: 9090
+      protocol: tcp
+    - port: 443
+      protocol: tcp
+    - port: 16443
+      protocol: tcp
+    - port: 123
+      protocol: udp
+    - port: 443
+      protocol: tcp
+
+  # OAM Workload to OAM Workload
+  "rsh-ls-nic00-k8s-cl01-wld-oam-ovr->rsh-ls-nic00-k8s-cl01-wld-oam-ovr":
+    - port: 17070
+      protocol: tcp
+    - port: 22
+      protocol: tcp
+    - port: 6443
+      protocol: tcp
+    - port: 10250
+      protocol: tcp
+    - port: 10256
+      protocol: tcp
+    - port: 10259
+      protocol: tcp
+    - port: 179
+      protocol: tcp
+    - port: 443
+      protocol: tcp
+    - port: 8443
+      protocol: tcp
+    - port: 2379
+      protocol: tcp
+    - port: 2380
+      protocol: tcp
+    - port: 8472
+      protocol: udp
+    - port: 4240
+      protocol: tcp
+    - port: 6081
+      protocol: udp
+
+  # OAM Workload to Monitoring
+  "rsh-ls-nic00-k8s-cl01-wld-oam-ovr->rsh-ls-nic00-k8s-cl01-mon-oam-ov":
+    - port: 3000
+      protocol: tcp
+    - port: 3100
+      protocol: tcp
+    - port: 9090
+      protocol: tcp
+    - port: 443
+      protocol: tcp
+    - port: 16443
+      protocol: tcp
+    - port: 123
+      protocol: udp
+    - port: 443
+      protocol: tcp
+
+  # Storage Management connections
+  "rsh-ls-nic00-k8s-cl01-mgt-stor-ovr->rsh-ls-nic00-k8s-cl01-mgt-stor-ovr":
+    - port: 3300
+      protocol: tcp
+    - port: 6789
+      protocol: tcp
+    - port: 6800-7300
+      protocol: tcp
+
+  # Storage Workload connections
+  "rsh-ls-nic00-k8s-cl01-wld-stor-ovr->rsh-ls-nic00-k8s-cl01-wld-stor-ovr":
+    - port: 3300
+      protocol: tcp
+    - port: 6789
+      protocol: tcp
+    - port: 6800-7300
+      protocol: tcp
+
+  # Monitoring connections
+  "rsh-ls-nic00-k8s-cl01-mon-oam-ov->rsh-ls-nic00-k8s-cl01-mon-oam-ov":
+    - port: 17070
+      protocol: tcp
+    - port: 22
+      protocol: tcp
+    - port: 123
+      protocol: udp
+    - port: 443
+      protocol: tcp
